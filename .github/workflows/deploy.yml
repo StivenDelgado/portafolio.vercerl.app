@@ -43,8 +43,8 @@ jobs:
             git pull origin develop
             
             # Build the Docker image
-            docker compose build --no-cache
+            docker-compose build --no-cache
             
             # Restart the container
-            docker compose up -d
+            docker-compose up -d
           EOF
