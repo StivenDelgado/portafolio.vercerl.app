@@ -41,4 +41,10 @@ jobs:
             git fetch --all
             git reset --hard origin/develop
             git pull origin develop
+            
+            # Build the Docker image
+            docker compose build --no-cache
+            
+            # Restart the container
+            docker compose up -d
           EOF
