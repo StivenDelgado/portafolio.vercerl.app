@@ -1,23 +1,16 @@
-    FROM node:20-alpine
+FROM node:20-alpine
 
-    WORKDIR /app
+WORKDIR /app
 
-    # Copy package files
-    COPY package*.json ./
+COPY package*.json ./
+RUN npm ci
 
-    # Install dependencies
-    RUN npm ci
+COPY . .
 
-    # Copy project files
-    COPY . .
+RUN npm run build
 
-    # Build the project
-    RUN npm run build
+RUN npm install -g serve
 
-    # Expose port 80
-    EXPOSE 80
+EXPOSE 80
 
-    COPY startup.sh /app/startup.sh
-    RUN chmod +x /app/startup.sh
-    CMD ["sh", "/app/startup.sh"]
-    
+CMD ["serve", "-s", "dist", "-l", "80"]
