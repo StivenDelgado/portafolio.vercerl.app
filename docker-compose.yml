@@ -6,9 +6,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - 3000:80
-    volumes:
-      - .:/app
-    command: npm run dev
     networks:
       - portfolio_net
     restart: always
