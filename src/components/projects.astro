@@ -1,56 +1,39 @@
 ---
 import { Image, getImage } from "astro:assets";
-import stockin from "@/assets/projects/stockin.png";
-import svgl from "@/assets/projects/svgl.png";
+import mixzer from "@/assets/projects/mixzer.webp";
+import axm from "@/assets/projects/axm-studio.jpg";
 
 interface Project {
   title: string;
-  preview: string;
+  url: string;
   role: string;
-  status: string;
-  image?: ImageMetadata;
-  repo?: string;
-  // Cover colors used when there is no screenshot.
-  cover?: [string, string];
+  desc: string;
+  image: ImageMetadata;
+  // Optional looping video shown instead of the still image.
+  video?: string;
 }
 
 const projects: Project[] = [
   {
     title: "Mixzer",
-    preview: "https://mixzer.co/",
-    role: "Sitio web",
-    status: "En línea",
-    cover: ["#a476ff", "#1b1030"],
+    url: "https://mixzer.co/",
+    role: "Plataforma para artistas",
+    desc: "SmartLinks, estadísticas y regalías",
+    image: mixzer,
   },
   {
     title: "AXM Studio",
-    preview: "https://axm-studio.vercel.app/",
-    role: "Sitio web",
-    status: "En línea",
-    cover: ["#ececec", "#3a3a3a"],
-  },
-  {
-    title: "StockIn",
-    image: stockin,
-    repo: "https://github.com/gothsec/stockin-demo",
-    preview: "https://stockin-demo.vercel.app",
-    role: "Proyecto propio",
-    status: "En desarrollo",
-  },
-  {
-    title: "Svgl.app",
-    image: svgl,
-    repo: "https://github.com/pheralb/svgl",
-    preview: "https://svgl.app",
-    role: "Open source",
-    status: "Contribuidor",
+    url: "https://axm-studio.vercel.app/",
+    role: "Experiencia audiovisual",
+    desc: "Sitio inmersivo con video y tienda",
+    image: axm,
+    video: "/videos/axm-studio.mp4",
   },
 ];
 
-const previews = await Promise.all(
-  projects.map((p) => (p.image ? getImage({ src: p.image, width: 720, format: "webp" }) : null)),
+const posters = await Promise.all(
+  projects.map((p) => getImage({ src: p.image, width: 960, format: "webp" })),
 );
-const domain = (url: string) => new URL(url).hostname.replace(/^www\./, "");
 ---
 
 <section id="proyectos" class="section">
@@ -69,68 +52,51 @@ const domain = (url: string) => new URL(url).hostname.replace(/^www\./, "");
             <div class="project group relative grid md:grid-cols-12 gap-4 md:gap-10 py-8 md:py-12 items-center" data-project={i}>
               <span class="mono text-[var(--muted)] md:col-span-3">{String(i + 1).padStart(2, "0")}</span>
               <h3 class="md:col-span-5 text-5xl md:text-7xl tracking-[-0.04em] transition-[transform,color] duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:translate-x-4">
-                <a href={p.preview} target="_blank" rel="noopener noreferrer" class="stretched">
+                <a href={p.url} target="_blank" rel="noopener noreferrer" class="stretched">
                   {p.title}
                 </a>
               </h3>
-              <div class="md:col-span-3 flex flex-wrap md:flex-col gap-x-4 gap-y-2 text-[var(--muted)]">
-                <span>{p.role} · <span class="mono">{p.status}</span></span>
-                <span class="flex gap-4">
-                  <a href={p.preview} target="_blank" rel="noopener noreferrer" class="mono link relative z-10 text-[var(--fg)]">
-                    Visitar sitio ↗
-                  </a>
-                  {p.repo && (
-                    <a href={p.repo} target="_blank" rel="noopener noreferrer" class="mono link relative z-10 hover:text-[var(--fg)]">
-                      Código ↗
-                    </a>
-                  )}
-                </span>
+              <div class="md:col-span-3 flex flex-col gap-2 text-[var(--muted)]">
+                <span>{p.role}</span>
+                <span class="mono">{p.desc}</span>
+                <a href={p.url} target="_blank" rel="noopener noreferrer" class="mono link relative z-10 self-start text-[var(--fg)] mt-1">
+                  Visitar sitio ↗
+                </a>
               </div>
               <span class="hidden md:flex md:col-span-1 justify-end text-3xl transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:-rotate-45" aria-hidden="true">
                 →
               </span>
-              {p.image ? (
-                <Image
-                  src={p.image}
-                  alt={`Captura de ${p.title}`}
-                  width={900}
-                  class="md:hidden col-span-full w-full rounded-xl mt-2 aspect-[16/10] object-cover"
-                />
-              ) : (
-                <div class="cover md:hidden col-span-full rounded-xl mt-2 aspect-[16/10]" style={`--c1: ${p.cover?.[0]}; --c2: ${p.cover?.[1]}`}>
-                  <span class="cover-title">{p.title}</span>
-                  <span class="mono cover-url">{domain(p.preview)}</span>
-                </div>
-              )}
+              <div class="md:hidden col-span-full mt-2 rounded-xl overflow-hidden aspect-[16/9]">
+                {p.video ? (
+                  <video
+                    src={p.video}
+                    poster={posters[i].src}
+                    class="w-full h-full object-cover"
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    preload="none"
+                    aria-label={`Video de ${p.title}`}
+                  />
+                ) : (
+                  <Image src={p.image} alt={`Captura de ${p.title}`} width={900} class="w-full h-full object-cover" />
+                )}
+              </div>
             </div>
           </li>
         ))
       }
     </ul>
-
-    <div class="mt-12" data-reveal>
-      <a
-        href="https://github.com/StivenDelgado?tab=repositories"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="btn"
-        data-magnetic="0.25"
-      >
-        Más proyectos en GitHub ↗
-      </a>
-    </div>
   </div>
 
   <div class="preview" data-preview aria-hidden="true">
     {
-      previews.map((img, i) =>
-        img ? (
-          <img src={img.src} alt="" data-preview-img={i} loading="lazy" decoding="async" />
+      projects.map((p, i) =>
+        p.video ? (
+          <video src={p.video} poster={posters[i].src} data-preview-img={i} muted loop playsinline preload="none" />
         ) : (
-          <div class="cover" data-preview-img={i} style={`--c1: ${projects[i].cover?.[0]}; --c2: ${projects[i].cover?.[1]}`}>
-            <span class="cover-title">{projects[i].title}</span>
-            <span class="mono cover-url">{domain(projects[i].preview)}</span>
-          </div>
+          <img src={posters[i].src} alt="" data-preview-img={i} loading="lazy" decoding="async" />
         ),
       )
     }
@@ -155,38 +121,6 @@ const domain = (url: string) => new URL(url).hostname.replace(/^www\./, "");
     }
   }
 
-  .cover {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 1.25rem;
-    overflow: hidden;
-    color: var(--bg);
-    background:
-      radial-gradient(120% 90% at 100% 0%, var(--c1), transparent 60%),
-      linear-gradient(160deg, var(--c2), #0c0c0c);
-  }
-  @media (min-width: 768px) {
-    .project .cover {
-      display: none;
-    }
-  }
-  .cover-title {
-    align-self: flex-end;
-    font-size: 2.6rem;
-    font-weight: 500;
-    letter-spacing: -0.04em;
-    line-height: 1;
-    color: var(--fg);
-    order: 2;
-  }
-  .cover-url {
-    color: var(--fg);
-    opacity: 0.7;
-    order: 1;
-  }
-
   .preview {
     display: none;
   }
@@ -196,15 +130,20 @@ const domain = (url: string) => new URL(url).hostname.replace(/^www\./, "");
       position: fixed;
       top: 0;
       left: 0;
-      width: 360px;
-      aspect-ratio: 16 / 10;
+      width: 420px;
+      aspect-ratio: 16 / 9;
       border-radius: 14px;
       overflow: hidden;
       pointer-events: none;
       z-index: 50;
+      clip-path: inset(50% 50% 50% 50% round 14px);
+      transition: clip-path 0.6s var(--ease);
+    }
+    .preview:global(.on) {
+      clip-path: inset(0 0 0 0 round 14px);
     }
     .preview img,
-    .preview .cover {
+    .preview video {
       position: absolute;
       inset: 0;
       width: 100%;
@@ -217,16 +156,9 @@ const domain = (url: string) => new URL(url).hostname.replace(/^www\./, "");
         transform 0.8s var(--ease);
     }
     .preview img:global(.on),
-    .preview .cover:global(.on) {
+    .preview video:global(.on) {
       opacity: 1;
       transform: scale(1);
-    }
-    .preview {
-      clip-path: inset(50% 50% 50% 50% round 14px);
-      transition: clip-path 0.6s var(--ease);
-    }
-    .preview:global(.on) {
-      clip-path: inset(0 0 0 0 round 14px);
     }
   }
 </style>
