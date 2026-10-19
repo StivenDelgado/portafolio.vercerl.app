@@ -188,11 +188,18 @@ if (finePointer && !reduced) {
     row.addEventListener("pointerenter", () => {
       preview?.classList.add("on");
       cursor?.classList.add("hide");
-      previewImgs.forEach((img, i) => img.classList.toggle("on", i === idx));
+      previewImgs.forEach((img, i) => {
+        img.classList.toggle("on", i === idx);
+        if (img instanceof HTMLVideoElement) {
+          if (i === idx) img.play().catch(() => {});
+          else img.pause();
+        }
+      });
     });
     row.addEventListener("pointerleave", () => {
       preview?.classList.remove("on");
       cursor?.classList.remove("hide");
+      previewImgs.forEach((img) => img instanceof HTMLVideoElement && img.pause());
     });
   });
 
