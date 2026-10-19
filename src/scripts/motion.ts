@@ -88,19 +88,6 @@ document.querySelectorAll<HTMLElement>("[data-rotate]").forEach((el) => {
   }, 2200);
 });
 
-/* Local time in Armenia, Colombia. */
-const clocks = document.querySelectorAll<HTMLElement>("[data-clock]");
-const tick = () => {
-  const t = new Intl.DateTimeFormat("es-CO", {
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "America/Bogota",
-  }).format(new Date());
-  clocks.forEach((c) => (c.textContent = t));
-};
-tick();
-setInterval(tick, 15000);
-
 /* Scroll-driven: progress bar + word highlight + parallax. */
 const root = document.documentElement;
 const parallax = Array.from(document.querySelectorAll<HTMLElement>("[data-parallax]"));
