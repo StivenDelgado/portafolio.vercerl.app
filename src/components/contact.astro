@@ -1,92 +1,132 @@
-<section id="contact" class="w-full py-12 border-t border-[#ffffff10]">
-  <div class="max-w-5xl mx-auto">
-    <h2 class="text-lg text-[var(--sec)] mb-2 shiny-sec">Let's talk</h2>
-    <h3 class="text-4xl md:text-5xl font-medium text-[var(--white)] mb-6">
-      Contact
-    </h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div class="text-[var(--white-icon)]">
-        <p class="mb-4">
-          Have a question or a project in mind? Feel free to reach out.
-        </p>
-        <div class="flex items-center gap-2">
-          <span>Location:</span>
-          <span class="text-[var(--white)]">Colombia, Armenia</span>
-        </div>
+---
+const email = "delgadostiven123@gmail.com";
+const socials = [
+  { label: "GitHub", href: "https://github.com/StivenDelgado" },
+  { label: "LinkedIn", href: "https://linkedin.com/in/stiven-delgado-b8b2b0272" },
+];
+---
+
+<section id="contacto" class="section">
+  <div class="wrap">
+    <p class="mono label mb-10" data-reveal>Contacto</p>
+
+    <h2 class="text-[clamp(3.5rem,13vw,13rem)] font-medium tracking-[-0.05em] leading-[0.9]">
+      <span class="block text-[var(--muted)]" data-split>¿Tienes una idea?</span>
+      <span class="block" data-split style="--d: 200ms">Hablemos.</span>
+    </h2>
+
+    <div class="mt-16 md:mt-24 grid md:grid-cols-12 gap-12">
+      <div class="md:col-span-5 space-y-10" data-reveal>
+        <a
+          href={`mailto:${email}?subject=Hola%20Stiven`}
+          class="email inline-flex items-center justify-center rounded-full bg-[var(--fg)] text-[var(--bg)] size-40 md:size-48 text-center text-lg hover:bg-[var(--accent)] transition-colors duration-500"
+          data-magnetic="0.4"
+        >
+          Escríbeme
+        </a>
+
+        <dl class="grid grid-cols-2 gap-6">
+          <div>
+            <dt class="mono text-[var(--muted)] mb-2">Email</dt>
+            <dd><a class="link break-all" href={`mailto:${email}`}>{email}</a></dd>
+          </div>
+          <div>
+            <dt class="mono text-[var(--muted)] mb-2">Ubicación</dt>
+            <dd>Armenia, Colombia</dd>
+          </div>
+          <div class="col-span-2">
+            <dt class="mono text-[var(--muted)] mb-2">Redes</dt>
+            <dd class="flex gap-6">
+              {
+                socials.map((s) => (
+                  <a class="link" href={s.href} target="_blank" rel="noopener noreferrer">
+                    {s.label} ↗
+                  </a>
+                ))
+              }
+            </dd>
+          </div>
+        </dl>
       </div>
 
-      <div>
-        <form
-          id="contact-form"
-          action="https://formspree.io/f/mnnjznkj"
-          method="POST"
-          class="flex flex-col gap-4"
-        >
-          <input
-            type="text"
-            name="from_name"
-            placeholder="Name"
-            required
-            class="px-4 py-2 bg-[#1414149c] text-[var(--white)] border border-[var(--white-icon-tr)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--sec)]"
-          />
-          <input
-            type="email"
-            name="reply_to"
-            placeholder="Email"
-            required
-            class="px-4 py-2 bg-[#1414149c] text-[var(--white)] border border-[var(--white-icon-tr)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--sec)]"
-          />
-          <textarea
-            name="message"
-            placeholder="Message"
-            rows="6"
-            required
-            class="px-4 py-2 bg-[#1414149c] text-[var(--white)] border border-[var(--white-icon-tr)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--sec)] resize-none"
-          ></textarea>
-          <button
-            type="submit"
-            class="px-4 py-2 bg-[var(--white-icon-tr)] text-[var(--white)] rounded-lg opacity-60 transition-opacity border border-[var(--white-icon-tr)] hover:opacity-100 hover:bg-[var(--white-icon-tr)]"
-          >
-            Submit
-          </button>
+      <div class="md:col-span-7" data-reveal style="--d: 150ms">
+        <form id="contact-form" action="https://formspree.io/f/mnnjznkj" method="POST" class="space-y-8">
+          <div class="grid sm:grid-cols-2 gap-8">
+            <label class="field">
+              <span class="mono">Nombre</span>
+              <input type="text" name="from_name" required autocomplete="name" />
+            </label>
+            <label class="field">
+              <span class="mono">Email</span>
+              <input type="email" name="reply_to" required autocomplete="email" />
+            </label>
+          </div>
+          <label class="field">
+            <span class="mono">Mensaje</span>
+            <textarea name="message" rows="4" required></textarea>
+          </label>
+          <button type="submit" class="btn btn-solid" data-magnetic="0.25">Enviar mensaje →</button>
         </form>
-        <div
-          id="form-message"
-          class="hidden justify-center items-center mt-4 text-[var(--white)] text-lg"
-        >
-          ✅ Thank you for your message!
-        </div>
+        <p id="form-message" class="hidden text-2xl" role="status">
+          ¡Gracias! Tu mensaje fue enviado. Te responderé pronto.
+        </p>
       </div>
     </div>
   </div>
 </section>
 
-<script type="module" is:inline>
-  const form = document.getElementById("contact-form");
-  const formMessage = document.getElementById("form-message");
+<style>
+  .field {
+    display: block;
+    color: var(--muted);
+  }
+  .field input,
+  .field textarea {
+    display: block;
+    width: 100%;
+    margin-top: 0.75rem;
+    padding: 0.5rem 0 0.9rem;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--fg);
+    font-size: 1.25rem;
+    resize: none;
+    outline: none;
+    transition: border-color 0.4s var(--ease);
+  }
+  .field:focus-within {
+    color: var(--fg);
+  }
+  .field input:focus,
+  .field textarea:focus {
+    border-color: var(--accent);
+  }
+</style>
 
-  form.addEventListener("submit", async (e) => {
+<script>
+  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+  const msg = document.getElementById("form-message");
+
+  form?.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const formData = new FormData(form);
-
+    const button = form.querySelector("button");
+    if (button) button.disabled = true;
     try {
-      const response = await fetch(form.action, {
+      const res = await fetch(form.action, {
         method: "POST",
-        body: formData,
+        body: new FormData(form),
         headers: { Accept: "application/json" },
       });
-      if (response.ok) {
-        form.reset();
-        form.style.display = "none";
-        formMessage.classList.remove("hidden");
-      } else {
-        const data = await response.json();
-        console.error("Error response:", data);
-        alert("There was a problem sending your message.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("There was a problem sending your message.");
+      if (!res.ok) throw new Error(String(res.status));
+      form.reset();
+      form.style.display = "none";
+      msg?.classList.remove("hidden");
+    } catch (err) {
+      console.error(err);
+      alert("Hubo un problema al enviar tu mensaje. Intenta de nuevo o escríbeme por email.");
+    } finally {
+      if (button) button.disabled = false;
     }
   });
 </script>

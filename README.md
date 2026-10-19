@@ -8,7 +8,7 @@
 
 [ReactBits Showcase](https://www.reactbits.dev/showcase) 
 
-The component `<LetterGlitch \>` was taken from [ReactBits.dev](https://www.reactbits.dev/)
+Diseño minimalista con animaciones (motion): texto que aparece letra por letra, párrafo que se ilumina al hacer scroll, vista previa de proyectos que sigue al cursor, botones magnéticos y cinta de tecnologías. Sin librerías de animación: todo está en `src/scripts/motion.ts` y `src/styles/global.css`, y respeta `prefers-reduced-motion`.
 
 ## **Stack**  
 ### **Frontend**  
@@ -27,10 +27,12 @@ The component `<LetterGlitch \>` was taken from [ReactBits.dev](https://www.reac
 public/
 └── svg/
 src/
-├── Components/
+├── assets/projects/   # capturas de proyectos
+├── components/        # secciones de la página
 ├── layouts/
-├── React/
-└── pages/
+├── pages/
+├── scripts/motion.ts  # animaciones
+└── styles/global.css  # tokens y estilos globales
 ```
 
 ## **Local configuration** 

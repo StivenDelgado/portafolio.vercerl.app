@@ -1,0 +1,87 @@
+---
+const areas = [
+  {
+    title: "Frontend",
+    desc: "SPAs, landing pages, sitios corporativos y portafolios con interfaces cuidadas y accesibles.",
+    tags: ["Astro", "React", "TypeScript", "JavaScript", "Tailwind CSS", "HTML", "CSS"],
+  },
+  {
+    title: "Backend",
+    desc: "APIs REST y lógica de negocio sólida, pensada para crecer.",
+    tags: ["Node.js", "Spring Boot", "Python"],
+  },
+  {
+    title: "Bases de datos",
+    desc: "Modelado y gestión de datos relacionales y NoSQL.",
+    tags: ["MySQL", "PostgreSQL", "MongoDB", "Firebase"],
+  },
+  {
+    title: "DevOps & Cloud",
+    desc: "Contenedores, pipelines de CI/CD y despliegues en la nube.",
+    tags: ["Docker", "GitHub Actions", "AWS", "Azure", "Vercel", "Git", "Bash"],
+  },
+];
+---
+
+<section id="lo-que-se" class="section">
+  <div class="wrap">
+    <div class="grid md:grid-cols-12 gap-10 mb-16 md:mb-24">
+      <p class="mono label md:col-span-3" data-reveal>Lo que sé</p>
+      <h2 class="md:col-span-9 text-5xl md:text-7xl lg:text-8xl font-medium tracking-[-0.04em] leading-[0.95]" data-split>
+        Habilidades y stack
+      </h2>
+    </div>
+
+    <ol class="border-b border-[var(--line)]">
+      {
+        areas.map((a, i) => (
+          <li class="row group relative border-t border-[var(--line)]" data-reveal style={`--d: ${i * 80}ms`} data-hover>
+            <div class="relative z-10 grid md:grid-cols-12 gap-4 md:gap-10 py-8 md:py-10">
+              <span class="mono text-[var(--muted)] md:col-span-3 pt-2 transition-colors duration-500 group-hover:text-[var(--bg)]">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <div class="md:col-span-4">
+                <h3 class="text-3xl md:text-5xl tracking-[-0.03em] transition-[transform,color] duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:translate-x-3 group-hover:text-[var(--bg)]">
+                  {a.title}
+                </h3>
+              </div>
+              <div class="md:col-span-5">
+                <p class="text-[var(--muted)] mb-5 leading-relaxed transition-colors duration-500 group-hover:text-black/70">
+                  {a.desc}
+                </p>
+                <ul class="flex flex-wrap gap-2">
+                  {a.tags.map((t) => (
+                    <li class="mono px-3 py-1.5 rounded-full border border-[var(--line)] transition-colors duration-500 group-hover:border-black/25 group-hover:text-[var(--bg)]">
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .row::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--fg);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.7s var(--ease);
+  }
+  .row:hover::before {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  @media (hover: none) {
+    .row::before {
+      display: none;
+    }
+  }
+</style>

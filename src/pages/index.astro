@@ -2,15 +2,23 @@
 import Layout from "@/layouts/Layout.astro";
 import Nav from "@/components/nav.astro";
 import Home from "@/components/home.astro";
+import LogoWall from "@/components/logoWall.astro";
+import About from "@/components/about.astro";
+import Skills from "@/components/skills.astro";
 import Projects from "@/components/projects.astro";
 import Contact from "@/components/contact.astro";
 import Footer from "@/components/footer.astro";
 ---
 
-<Layout title="Stiven Delgado">
+<Layout title="Stiven Delgado — Portafolio">
   <Nav />
-  <Home />
-  <Projects />
-  <Contact />
+  <main>
+    <Home />
+    <LogoWall />
+    <About />
+    <Skills />
+    <Projects />
+    <Contact />
+  </main>
   <Footer />
 </Layout>
